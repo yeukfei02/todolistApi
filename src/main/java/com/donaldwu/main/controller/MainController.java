@@ -1,18 +1,18 @@
 package com.donaldwu.main.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.donaldwu.main.responsebody.MainResponseBody;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping(value="/")
 public class MainController {
-    @RequestMapping(value="/", method = RequestMethod.GET)
-    public static Map<String, String> getMain() {
-        Map<String, String> testMap = new HashMap<>();
-        testMap.put("message", "todolistApi");
-        return testMap;
+    @RequestMapping(value="", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public static MainResponseBody getMain() {
+        MainResponseBody mainResponseBody = new MainResponseBody();
+        mainResponseBody.setMessage("todolistApi");
+        return mainResponseBody;
     }
 }
