@@ -5,15 +5,19 @@ import com.donaldwu.main.responsebody.MainResponseBody;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.logging.Logger;
+
 @RestController
 @RequestMapping(value="/api")
 public class UserController {
-    @RequestMapping(value="", method = RequestMethod.GET)
+    private static final Logger logger = Logger.getLogger(UserController.class.toString());
+
+    @RequestMapping(value="/user/create-user", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public static MainResponseBody createUser(@RequestBody CreateUserRequestBody createUserRequestBody) {
         String username = createUserRequestBody.getUsername();
-        System.out.printf("username = %s", username);
+        logger.info("username = " + username);
 
         MainResponseBody mainResponseBody = new MainResponseBody();
         mainResponseBody.setMessage("create user");
