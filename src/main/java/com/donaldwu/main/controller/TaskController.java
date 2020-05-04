@@ -11,17 +11,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/api")
 public class TaskController {
+    private static final Logger logger = Logger.getLogger(TaskController.class.toString());
+
     @RequestMapping(value="/task/create-task", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public static MainResponseBody createTask(@RequestBody CreateTaskRequestBody createTaskRequestBody) {
         String taskTitle = createTaskRequestBody.getTaskTitle();
         String taskDescription = createTaskRequestBody.getTaskDescription();
-        System.out.printf("taskTitle = %s, taskDescription = %s", taskTitle, taskDescription);
+        logger.info("taskTitle = " + taskTitle);
+        logger.info("taskDescription = " + taskDescription);
 
         MainResponseBody mainResponseBody = new MainResponseBody();
         mainResponseBody.setMessage("create task");
@@ -50,7 +54,7 @@ public class TaskController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public static GetTaskByIdResponseBody getTaskById(@PathVariable(value = "id") int id) {
-        System.out.printf("id = %d", id);
+        logger.info("id = " + id);
 
         GetTaskByIdResponseBody getTaskByIdResponseBody = new GetTaskByIdResponseBody();
         getTaskByIdResponseBody.setMessage("get task by id");
@@ -65,7 +69,7 @@ public class TaskController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public static MainResponseBody updateTaskById(@PathVariable(value = "id") int id) {
-        System.out.printf("id = %d", id);
+        logger.info("id = " + id);
 
         MainResponseBody mainResponseBody = new MainResponseBody();
         mainResponseBody.setMessage("update task by id");
@@ -76,7 +80,7 @@ public class TaskController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public static MainResponseBody deleteTaskById(@PathVariable(value = "id") int id) {
-        System.out.printf("id = %d", id);
+        logger.info("id = " + id);
 
         MainResponseBody mainResponseBody = new MainResponseBody();
         mainResponseBody.setMessage("delete task by id");
