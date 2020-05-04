@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  web:
+    container_name: todolistApi
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - 8080:8080
+    links:
+      - db
+  db:
+    container_name: postgres
+    image: postgres:12.1
+    ports:
+      - 5432:5432
