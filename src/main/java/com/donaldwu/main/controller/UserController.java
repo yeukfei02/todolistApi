@@ -15,7 +15,7 @@ public class UserController {
     @RequestMapping(value="/user/create-user", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public static MainResponseBody createUser(@RequestBody CreateUserRequestBody createUserRequestBody) {
+    private MainResponseBody createUser(@RequestBody CreateUserRequestBody createUserRequestBody) {
         String username = createUserRequestBody.getUsername();
         logger.info("username = " + username);
 

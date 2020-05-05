@@ -21,11 +21,9 @@ public class TaskController {
     @RequestMapping(value="/task/create-task", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public static MainResponseBody createTask(@RequestBody CreateTaskRequestBody createTaskRequestBody) {
-        String taskTitle = createTaskRequestBody.getTaskTitle();
-        String taskDescription = createTaskRequestBody.getTaskDescription();
-        logger.info("taskTitle = " + taskTitle);
-        logger.info("taskDescription = " + taskDescription);
+    private MainResponseBody createTask(@RequestBody CreateTaskRequestBody createTaskRequestBody) {
+        String taskMessage = createTaskRequestBody.getTaskMessage();
+        logger.info("taskMessage = " + taskMessage);
 
         MainResponseBody mainResponseBody = new MainResponseBody();
         mainResponseBody.setMessage("create task");
@@ -35,7 +33,7 @@ public class TaskController {
     @RequestMapping(value="/task", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public static GetAllTaskResponseBody getAllTask() {
+    private GetAllTaskResponseBody getAllTask() {
         GetAllTaskResponseBody getAllTaskResponseBody = new GetAllTaskResponseBody();
         getAllTaskResponseBody.setMessage("get all task");
 
@@ -53,7 +51,7 @@ public class TaskController {
     @RequestMapping(value="/task/{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public static GetTaskByIdResponseBody getTaskById(@PathVariable(value = "id") int id) {
+    private GetTaskByIdResponseBody getTaskById(@PathVariable(value = "id") int id) {
         logger.info("id = " + id);
 
         GetTaskByIdResponseBody getTaskByIdResponseBody = new GetTaskByIdResponseBody();
@@ -68,7 +66,7 @@ public class TaskController {
     @RequestMapping(value="/task/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public static MainResponseBody updateTaskById(@PathVariable(value = "id") int id) {
+    private MainResponseBody updateTaskById(@PathVariable(value = "id") int id) {
         logger.info("id = " + id);
 
         MainResponseBody mainResponseBody = new MainResponseBody();
@@ -79,7 +77,7 @@ public class TaskController {
     @RequestMapping(value="/task/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public static MainResponseBody deleteTaskById(@PathVariable(value = "id") int id) {
+    private MainResponseBody deleteTaskById(@PathVariable(value = "id") int id) {
         logger.info("id = " + id);
 
         MainResponseBody mainResponseBody = new MainResponseBody();

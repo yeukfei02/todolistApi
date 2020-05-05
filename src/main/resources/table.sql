@@ -8,8 +8,7 @@ create table user (
 
 create table task (
   taskId serial primary key,
-  taskTitle varchar(255) not null,
-  taskDescription varchar(255) not null,
+  taskMessage text not null,
   userId int not null references user (userId),
   createdBy timestamp not null default CURRENT_TIMESTAMP,
   updatedBy timestamp not null default CURRENT_TIMESTAMP

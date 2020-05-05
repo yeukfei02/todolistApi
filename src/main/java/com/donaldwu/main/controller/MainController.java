@@ -10,7 +10,7 @@ public class MainController {
     @RequestMapping(value="", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public static MainResponseBody getMain() {
+    private MainResponseBody getMain() {
         MainResponseBody mainResponseBody = new MainResponseBody();
         mainResponseBody.setMessage("todolistApi");
         return mainResponseBody;

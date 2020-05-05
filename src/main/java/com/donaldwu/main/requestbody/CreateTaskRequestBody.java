@@ -1,22 +1,13 @@
 package com.donaldwu.main.requestbody;
 
 public class CreateTaskRequestBody {
-    private String taskTitle;
-    private String taskDescription;
+    private String taskMessage;
 
-    public String getTaskTitle() {
-        return taskTitle;
+    public String getTaskMessage() {
+        return taskMessage;
     }
 
-    public void setTaskTitle(String taskTitle) {
-        this.taskTitle = taskTitle;
-    }
-
-    public String getTaskDescription() {
-        return taskDescription;
-    }
-
-    public void setTaskDescription(String taskDescription) {
-        this.taskDescription = taskDescription;
+    public void setTaskMessage(String taskMessage) {
+        this.taskMessage = taskMessage;
     }
 }
