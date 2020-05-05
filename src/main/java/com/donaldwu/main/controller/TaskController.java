@@ -1,16 +1,17 @@
 package com.donaldwu.main.controller;
 
+import com.donaldwu.main.entity.TaskEntity;
 import com.donaldwu.main.requestbody.CreateTaskRequestBody;
+import com.donaldwu.main.requestbody.UpdateTaskRequestBody;
 import com.donaldwu.main.responsebody.GetAllTaskResponseBody;
 import com.donaldwu.main.responsebody.GetTaskByIdResponseBody;
 import com.donaldwu.main.responsebody.MainResponseBody;
+import com.donaldwu.main.service.TaskService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 @RestController
@@ -18,14 +19,18 @@ import java.util.logging.Logger;
 public class TaskController {
     private static final Logger logger = Logger.getLogger(TaskController.class.toString());
 
+    @Autowired
+    private TaskService taskService;
+
     @RequestMapping(value="/task/create-task", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public static MainResponseBody createTask(@RequestBody CreateTaskRequestBody createTaskRequestBody) {
-        String taskTitle = createTaskRequestBody.getTaskTitle();
-        String taskDescription = createTaskRequestBody.getTaskDescription();
-        logger.info("taskTitle = " + taskTitle);
-        logger.info("taskDescription = " + taskDescription);
+    private MainResponseBody createTask(@RequestBody CreateTaskRequestBody createTaskRequestBody, TaskEntity taskEntity) {
+        String taskMessage = createTaskRequestBody.getTaskMessage();
+        Long userId = createTaskRequestBody.getUserId();
+        if (taskMessage != null && !taskMessage.isEmpty() && userId != null) {
+            taskService.createTask(taskEntity, taskMessage, userId);
+        }
 
         MainResponseBody mainResponseBody = new MainResponseBody();
         mainResponseBody.setMessage("create task");
@@ -35,41 +40,64 @@ public class TaskController {
     @RequestMapping(value="/task", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public static GetAllTaskResponseBody getAllTask() {
+    private GetAllTaskResponseBody getAllTask() {
+        List<Object> taskList = new ArrayList<>();
+
+        List<TaskEntity> taskEntities = taskService.getAllTask();
+        if (taskEntities != null && !taskEntities.isEmpty()) {
+            for (TaskEntity taskEntity : taskEntities) {
+                Map<String, Object> testMap = new HashMap<>();
+
+                Long taskId = taskEntity.getTask_id();
+                String taskMessage = taskEntity.getTaskMessage();
+                Long userId = taskEntity.getUserId();
+                testMap.put("taskId", taskId);
+                testMap.put("taskMessage", taskMessage);
+                testMap.put("userId", userId);
+
+                taskList.add(testMap);
+            }
+        }
+
         GetAllTaskResponseBody getAllTaskResponseBody = new GetAllTaskResponseBody();
         getAllTaskResponseBody.setMessage("get all task");
-
-        List<Object> tasks = new ArrayList<>();
-        Map<String, String> testMap = new HashMap<>();
-        testMap.put("test", "test");
-        tasks.add(testMap);
-        Map<String, String> testMap2 = new HashMap<>();
-        testMap2.put("test2", "test2");
-        tasks.add(testMap2);
-        getAllTaskResponseBody.setTasks(tasks);
+        getAllTaskResponseBody.setTasks(taskList);
         return getAllTaskResponseBody;
     }
 
     @RequestMapping(value="/task/{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public static GetTaskByIdResponseBody getTaskById(@PathVariable(value = "id") int id) {
-        logger.info("id = " + id);
-
+    private GetTaskByIdResponseBody getTaskById(@PathVariable(value = "id") long id) {
         GetTaskByIdResponseBody getTaskByIdResponseBody = new GetTaskByIdResponseBody();
         getTaskByIdResponseBody.setMessage("get task by id");
 
-        Map<String, String> testMap = new HashMap<>();
-        testMap.put("test", "test");
-        getTaskByIdResponseBody.setTask(testMap);
+        TaskEntity taskEntity = taskService.getTaskById(id);
+        if (taskEntity != null) {
+            Map<String, Object> testMap = new HashMap<>();
+
+            Long taskId = taskEntity.getTask_id();
+            String taskMessage = taskEntity.getTaskMessage();
+            Long userId = taskEntity.getUserId();
+            testMap.put("taskId", taskId);
+            testMap.put("taskMessage", taskMessage);
+            testMap.put("userId", userId);
+
+            getTaskByIdResponseBody.setTask(testMap);
+        }
         return getTaskByIdResponseBody;
     }
 
     @RequestMapping(value="/task/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public static MainResponseBody updateTaskById(@PathVariable(value = "id") int id) {
-        logger.info("id = " + id);
+    private MainResponseBody updateTaskById(@PathVariable(value = "id") long id, @RequestBody UpdateTaskRequestBody updateTaskRequestBody) {
+        TaskEntity taskEntity = taskService.getTaskById(id);
+        if (taskEntity != null) {
+            String taskMessage = updateTaskRequestBody.getTaskMessage();
+            Long userId = updateTaskRequestBody.getUserId();
+            taskService.updateTaskById(id, taskMessage, userId);
+        }
 
         MainResponseBody mainResponseBody = new MainResponseBody();
         mainResponseBody.setMessage("update task by id");
@@ -79,8 +107,11 @@ public class TaskController {
     @RequestMapping(value="/task/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public static MainResponseBody deleteTaskById(@PathVariable(value = "id") int id) {
-        logger.info("id = " + id);
+    private MainResponseBody deleteTaskById(@PathVariable(value = "id") long id) {
+        TaskEntity taskEntity = taskService.getTaskById(id);
+        if (taskEntity != null) {
+            taskService.deleteTaskById(id);
+        }
 
         MainResponseBody mainResponseBody = new MainResponseBody();
         mainResponseBody.setMessage("delete task by id");
