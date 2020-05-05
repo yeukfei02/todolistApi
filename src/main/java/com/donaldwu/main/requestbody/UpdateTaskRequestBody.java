@@ -1,6 +1,6 @@
 package com.donaldwu.main.requestbody;
 
-public class CreateTaskRequestBody {
+public class UpdateTaskRequestBody {
     private String taskMessage;
     private Long userId;
 
