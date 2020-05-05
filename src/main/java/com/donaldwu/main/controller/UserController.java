@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value="/api")
 public class UserController {
     private static final Logger logger = Logger.getLogger(UserController.class.toString());
