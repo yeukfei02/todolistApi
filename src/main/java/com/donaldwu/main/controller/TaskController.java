@@ -15,6 +15,7 @@ import java.util.*;
 import java.util.logging.Logger;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api")
 public class TaskController {
     private static final Logger logger = Logger.getLogger(TaskController.class.toString());
