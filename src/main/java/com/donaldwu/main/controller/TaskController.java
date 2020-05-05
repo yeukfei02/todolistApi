@@ -41,21 +41,27 @@ public class TaskController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     private GetAllTaskResponseBody getAllTask() {
-        GetAllTaskResponseBody getAllTaskResponseBody = new GetAllTaskResponseBody();
-        getAllTaskResponseBody.setMessage("get all task");
+        List<Object> taskList = new ArrayList<>();
 
         List<TaskEntity> taskEntities = taskService.getAllTask();
-        logger.info("taskEntities = " + taskEntities);
+        if (taskEntities != null && !taskEntities.isEmpty()) {
+            for (TaskEntity taskEntity : taskEntities) {
+                Map<String, Object> testMap = new HashMap<>();
 
-        List<Object> tasks = new ArrayList<>();
-        Map<String, String> testMap = new HashMap<>();
-        testMap.put("test", "test");
-        tasks.add(testMap);
-        Map<String, String> testMap2 = new HashMap<>();
-        testMap2.put("test2", "test2");
-        tasks.add(testMap2);
-        getAllTaskResponseBody.setTasks(tasks);
+                Long taskId = taskEntity.getTask_id();
+                String taskMessage = taskEntity.getTaskMessage();
+                Long userId = taskEntity.getUserId();
+                testMap.put("taskId", taskId);
+                testMap.put("taskMessage", taskMessage);
+                testMap.put("userId", userId);
 
+                taskList.add(testMap);
+            }
+        }
+
+        GetAllTaskResponseBody getAllTaskResponseBody = new GetAllTaskResponseBody();
+        getAllTaskResponseBody.setMessage("get all task");
+        getAllTaskResponseBody.setTasks(taskList);
         return getAllTaskResponseBody;
     }
 
@@ -63,17 +69,22 @@ public class TaskController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     private GetTaskByIdResponseBody getTaskById(@PathVariable(value = "id") long id) {
-        if (id > 0) {
-            Optional<TaskEntity> task = taskService.getTaskById(id);
-            logger.info("task = " + task);
-        }
-
         GetTaskByIdResponseBody getTaskByIdResponseBody = new GetTaskByIdResponseBody();
         getTaskByIdResponseBody.setMessage("get task by id");
 
-        Map<String, String> testMap = new HashMap<>();
-        testMap.put("test", "test");
-        getTaskByIdResponseBody.setTask(testMap);
+        TaskEntity taskEntity = taskService.getTaskById(id);
+        if (taskEntity != null) {
+            Map<String, Object> testMap = new HashMap<>();
+
+            Long taskId = taskEntity.getTask_id();
+            String taskMessage = taskEntity.getTaskMessage();
+            Long userId = taskEntity.getUserId();
+            testMap.put("taskId", taskId);
+            testMap.put("taskMessage", taskMessage);
+            testMap.put("userId", userId);
+
+            getTaskByIdResponseBody.setTask(testMap);
+        }
         return getTaskByIdResponseBody;
     }
 
@@ -81,7 +92,8 @@ public class TaskController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     private MainResponseBody updateTaskById(@PathVariable(value = "id") long id, @RequestBody UpdateTaskRequestBody updateTaskRequestBody) {
-        if (id > 0) {
+        TaskEntity taskEntity = taskService.getTaskById(id);
+        if (taskEntity != null) {
             String taskMessage = updateTaskRequestBody.getTaskMessage();
             Long userId = updateTaskRequestBody.getUserId();
             taskService.updateTaskById(id, taskMessage, userId);
@@ -96,7 +108,8 @@ public class TaskController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     private MainResponseBody deleteTaskById(@PathVariable(value = "id") long id) {
-        if (id > 0) {
+        TaskEntity taskEntity = taskService.getTaskById(id);
+        if (taskEntity != null) {
             taskService.deleteTaskById(id);
         }
 

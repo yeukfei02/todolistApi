@@ -6,8 +6,8 @@ import javax.persistence.*;
 @Table(name = "task")
 public class TaskEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long task_id;
 
     @Column(name="task_message")
     private String taskMessage;
@@ -15,12 +15,12 @@ public class TaskEntity {
     @Column(name="user_id")
     private Long userId;
 
-    public Long getId() {
-        return id;
+    public Long getTask_id() {
+        return task_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setTask_id(Long task_id) {
+        this.task_id = task_id;
     }
 
     public String getTaskMessage() {
