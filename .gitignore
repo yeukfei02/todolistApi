@@ -23,5 +23,6 @@
 hs_err_pid*
 
 #.env
+.idea
 .gradle
 /build
