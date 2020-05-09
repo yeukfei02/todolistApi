@@ -42,7 +42,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     private GetAllUserResponseBody getAllUser() {
-        List<Object> userList = new ArrayList<>();
+        List<Map<String, Object>> userList = new ArrayList<>();
 
         List<UserEntity> userEntities = userService.getAllUser();
         if (!userEntities.isEmpty()) {

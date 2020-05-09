@@ -42,7 +42,7 @@ public class TaskController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     private GetAllTaskResponseBody getAllTask() {
-        List<Object> taskList = new ArrayList<>();
+        List<Map<String, Object>> taskList = new ArrayList<>();
 
         List<TaskEntity> taskEntities = taskService.getAllTask();
         if (taskEntities != null && !taskEntities.isEmpty()) {
