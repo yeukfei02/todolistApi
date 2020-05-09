@@ -1,10 +1,11 @@
 package com.donaldwu.main.responsebody;
 
 import java.util.List;
+import java.util.Map;
 
 public class GetAllTaskResponseBody {
     private String message;
-    private List<Object> tasks;
+    private List<Map<String, Object>> tasks;
 
     public String getMessage() {
         return message;
@@ -14,11 +15,11 @@ public class GetAllTaskResponseBody {
         this.message = message;
     }
 
-    public List<Object> getTasks() {
+    public List<Map<String, Object>> getTasks() {
         return tasks;
     }
 
-    public void setTasks(List<Object> tasks) {
+    public void setTasks(List<Map<String, Object>> tasks) {
         this.tasks = tasks;
     }
 }

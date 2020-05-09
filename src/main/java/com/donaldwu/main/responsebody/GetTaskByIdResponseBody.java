@@ -1,8 +1,10 @@
 package com.donaldwu.main.responsebody;
 
+import java.util.Map;
+
 public class GetTaskByIdResponseBody {
     private String message;
-    private Object Task;
+    private Map<String, Object> task;
 
     public String getMessage() {
         return message;
@@ -12,11 +14,11 @@ public class GetTaskByIdResponseBody {
         this.message = message;
     }
 
-    public Object getTask() {
-        return Task;
+    public Map<String, Object> getTask() {
+        return task;
     }
 
-    public void setTask(Object task) {
-        Task = task;
+    public void setTask(Map<String, Object> taskValue) {
+        task = taskValue;
     }
 }
