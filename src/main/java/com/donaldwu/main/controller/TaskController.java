@@ -41,22 +41,43 @@ public class TaskController {
     @RequestMapping(value="/task", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    private GetAllTaskResponseBody getAllTask() {
+    private GetAllTaskResponseBody getAllTask(@RequestParam(value = "userId", required = false) String userIdRequestParam) {
         List<Map<String, Object>> taskList = new ArrayList<>();
 
         List<TaskEntity> taskEntities = taskService.getAllTask();
-        if (taskEntities != null && !taskEntities.isEmpty()) {
-            for (TaskEntity taskEntity : taskEntities) {
-                Map<String, Object> testMap = new HashMap<>();
+        if (userIdRequestParam == null) {
+            if (taskEntities != null && !taskEntities.isEmpty()) {
+                for (TaskEntity taskEntity : taskEntities) {
+                    Map<String, Object> testMap = new HashMap<>();
 
-                Long taskId = taskEntity.getTask_id();
-                String taskMessage = taskEntity.getTaskMessage();
-                Long userId = taskEntity.getUserId();
-                testMap.put("taskId", taskId);
-                testMap.put("taskMessage", taskMessage);
-                testMap.put("userId", userId);
+                    Long taskId = taskEntity.getTask_id();
+                    String taskMessage = taskEntity.getTaskMessage();
+                    Long userId = taskEntity.getUserId();
+                    testMap.put("taskId", taskId);
+                    testMap.put("taskMessage", taskMessage);
+                    testMap.put("userId", userId);
 
-                taskList.add(testMap);
+                    taskList.add(testMap);
+                }
+            }
+        } else {
+            if (taskEntities != null && !taskEntities.isEmpty()) {
+                for (TaskEntity taskEntity : taskEntities) {
+                    Long userIdFromDB = taskEntity.getUserId();
+                    Long userIdLongRequestParam = Long.parseLong(userIdRequestParam, 10);
+                    if (userIdFromDB.equals(userIdLongRequestParam)) {
+                        Map<String, Object> testMap = new HashMap<>();
+
+                        Long taskId = taskEntity.getTask_id();
+                        String taskMessage = taskEntity.getTaskMessage();
+                        Long userId = taskEntity.getUserId();
+                        testMap.put("taskId", taskId);
+                        testMap.put("taskMessage", taskMessage);
+                        testMap.put("userId", userId);
+
+                        taskList.add(testMap);
+                    }
+                }
             }
         }
 

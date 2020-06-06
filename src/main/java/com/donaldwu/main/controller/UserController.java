@@ -72,7 +72,7 @@ public class UserController {
     @RequestMapping(value="/user/get-user-id", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    private GetUserIdResponseBody getUserId(@RequestParam String username) {
+    private GetUserIdResponseBody getUserId(@RequestParam(value = "username") String username) {
         UserEntity user = userService.getUserByUsername(username);
         Long userId = user.getUser_id();
 
