@@ -35,4 +35,19 @@ public class UserService {
         List<UserEntity> userEntities = userRepository.findAll();
         return userEntities.get(userEntities.size() - 1);
     }
+
+    public UserEntity getUserByUsername(String username) {
+        UserEntity userEntityResult = null;
+
+        List<UserEntity> userEntities = userRepository.findAll();
+        if (!userEntities.isEmpty()) {
+            for (UserEntity userEntity : userEntities) {
+                String usernameFromDB = userEntity.getUsername();
+                if (usernameFromDB.equals(username)) {
+                    userEntityResult = userEntity;
+                }
+            }
+        }
+        return userEntityResult;
+    }
 }
