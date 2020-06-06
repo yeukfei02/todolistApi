@@ -406,7 +406,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/task",
+							"raw": "localhost:8080/api/task?userId=83",
 							"host": [
 								"localhost"
 							],
@@ -414,6 +414,12 @@
 							"path": [
 								"api",
 								"task"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "83"
+								}
 							]
 						},
 						"description": "/task"
