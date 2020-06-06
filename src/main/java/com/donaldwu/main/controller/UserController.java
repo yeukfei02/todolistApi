@@ -4,6 +4,7 @@ import com.donaldwu.main.entity.UserEntity;
 import com.donaldwu.main.requestbody.CreateUserRequestBody;
 import com.donaldwu.main.responsebody.CreateUserResponseBody;
 import com.donaldwu.main.responsebody.GetAllUserResponseBody;
+import com.donaldwu.main.responsebody.GetUserIdResponseBody;
 import com.donaldwu.main.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -66,5 +67,18 @@ public class UserController {
         getAllUserResponseBody.setMessage("get all user");
         getAllUserResponseBody.setUsers(userList);
         return getAllUserResponseBody;
+    }
+
+    @RequestMapping(value="/user/get-user-id", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    private GetUserIdResponseBody getUserId(@RequestParam String username) {
+        UserEntity user = userService.getUserByUsername(username);
+        Long userId = user.getUser_id();
+
+        GetUserIdResponseBody getUserIdResponseBody = new GetUserIdResponseBody();
+        getUserIdResponseBody.setMessage("get user id");
+        getUserIdResponseBody.setUserId(userId);
+        return getUserIdResponseBody;
     }
 }
