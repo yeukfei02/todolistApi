@@ -30,4 +30,9 @@ public class UserService {
     public List<UserEntity> getAllUser() {
         return userRepository.findAll();
     }
+
+    public UserEntity getLastUser() {
+        List<UserEntity> userEntities = userRepository.findAll();
+        return userEntities.get(userEntities.size() - 1);
+    }
 }
