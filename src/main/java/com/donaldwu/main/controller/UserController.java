@@ -2,8 +2,8 @@ package com.donaldwu.main.controller;
 
 import com.donaldwu.main.entity.UserEntity;
 import com.donaldwu.main.requestbody.CreateUserRequestBody;
+import com.donaldwu.main.responsebody.CreateUserResponseBody;
 import com.donaldwu.main.responsebody.GetAllUserResponseBody;
-import com.donaldwu.main.responsebody.MainResponseBody;
 import com.donaldwu.main.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,15 +27,19 @@ public class UserController {
     @RequestMapping(value="/user/create-user", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    private MainResponseBody createUser(@RequestBody CreateUserRequestBody createUserRequestBody, UserEntity userEntity) {
+    private CreateUserResponseBody createUser(@RequestBody CreateUserRequestBody createUserRequestBody, UserEntity userEntity) {
         String username = createUserRequestBody.getUsername();
         if (username != null && !username.isEmpty()) {
             userService.createUser(userEntity, username);
         }
 
-        MainResponseBody mainResponseBody = new MainResponseBody();
-        mainResponseBody.setMessage("create user");
-        return mainResponseBody;
+        UserEntity lastUser = userService.getLastUser();
+        Long userId = lastUser.getUser_id();
+
+        CreateUserResponseBody createUserResponseBody = new CreateUserResponseBody();
+        createUserResponseBody.setMessage("create user");
+        createUserResponseBody.setUserId(userId);
+        return createUserResponseBody;
     }
 
     @RequestMapping(value="/user", method = RequestMethod.GET)
