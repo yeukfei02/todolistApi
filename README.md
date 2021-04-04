@@ -2,15 +2,15 @@
 
 todolistApi
 
-documentation: https://documenter.getpostman.com/view/3827865/Szmb7Kdz?version=latest
+documentation: <https://documenter.getpostman.com/view/3827865/Szmb7Kdz?version=latest>
 
-## Requirement:
+## Requirement
 
 - install java (1.8+)
 
-## Testing and run:
+## Testing and run
 
-```
+```zsh
 // build jar
 $ ./gradlew build
 
@@ -26,9 +26,9 @@ open project in intellij idea
 
 open localhost:8080
 
-## Docker:
+## Docker
 
-```
+```zsh
 // build images and start container in one line
 docker-compose up -d --build
 
