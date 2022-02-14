@@ -17,9 +17,11 @@ $ ./gradlew build
 // run jar
 $ java -jar build/libs/todolistApi-1.0.0.jar
 
-// start project - run MainApplication.java
+// start project
+- run MainApplication.java
 
-// run test case - run MainApplicationTests.java
+// run test case
+- run MainApplicationTests.java
 ```
 
 open project in intellij idea
