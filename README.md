@@ -20,6 +20,12 @@ $ java -jar build/libs/todolistApi-1.0.0.jar
 // start project
 - run MainApplication.java
 
+// db migrate info
+$ ./gradlew flywayInfo
+
+// db migrate
+$ ./gradlew flywayMigrate
+
 // run test case
 - run MainApplicationTests.java
 ```
