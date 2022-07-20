@@ -4,6 +4,8 @@ todolistApi
 
 documentation: <https://documenter.getpostman.com/view/3827865/Szmb7Kdz?version=latest>
 
+api url: <https://todo-list-api-v1.herokuapp.com/>
+
 ## Requirement
 
 - install java (1.8+)
@@ -27,7 +29,7 @@ $ ./gradlew flywayInfo
 $ ./gradlew flywayMigrate
 
 // run test case
-- run MainApplicationTests.java
+$ ./gradlew test
 ```
 
 open project in intellij idea
