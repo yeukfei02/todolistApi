@@ -6,6 +6,7 @@ import com.donaldwu.main.responsebody.CreateUserResponseBody;
 import com.donaldwu.main.responsebody.GetAllUserResponseBody;
 import com.donaldwu.main.responsebody.GetUserIdResponseBody;
 import com.donaldwu.main.service.UserService;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,14 +15,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value="/api")
+@Log
 public class UserController {
-    private static final Logger logger = Logger.getLogger(UserController.class.toString());
-
     @Autowired
     private UserService userService;
 
