@@ -1,9 +1,12 @@
 package com.donaldwu.main.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "tasks")
+@Data
 public class TaskEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,28 +17,4 @@ public class TaskEntity {
 
     @Column(name="user_id")
     private Long userId;
-
-    public Long getTask_id() {
-        return task_id;
-    }
-
-    public void setTask_id(Long task_id) {
-        this.task_id = task_id;
-    }
-
-    public String getTaskMessage() {
-        return taskMessage;
-    }
-
-    public void setTaskMessage(String taskMessage) {
-        this.taskMessage = taskMessage;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
 }

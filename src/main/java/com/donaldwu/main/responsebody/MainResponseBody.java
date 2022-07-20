@@ -1,13 +1,8 @@
 package com.donaldwu.main.responsebody;
 
+import lombok.Data;
+
+@Data
 public class MainResponseBody {
     private String message;
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 }

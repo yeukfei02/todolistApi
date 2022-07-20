@@ -1,13 +1,8 @@
 package com.donaldwu.main.requestbody;
 
+import lombok.Data;
+
+@Data
 public class CreateUserRequestBody {
     private String username;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 }
