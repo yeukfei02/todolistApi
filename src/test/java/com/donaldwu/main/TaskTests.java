@@ -2,11 +2,12 @@ package com.donaldwu.main;
 
 import com.donaldwu.main.entity.TaskEntity;
 import com.donaldwu.main.repository.TaskRepository;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -24,20 +25,24 @@ public class TaskTests {
 
         TaskEntity taskEntity = new TaskEntity();
         taskEntity.setTaskMessage("taskMessage123");
-        taskEntity.setUserId(1L);
+        taskEntity.setUser_id(1L);
         taskRepository.save(taskEntity);
 
-        List<TaskEntity> taskEntities = taskRepository.findAll();
-        TaskEntity lastTask = taskEntities.get(taskEntities.size() - 1);
+        List<TaskEntity> taskList = new ArrayList<>();
+
+        Iterable<TaskEntity> taskEntities = taskRepository.findAll();
+        taskEntities.forEach(taskList::add);
+
+        TaskEntity lastTask = taskList.get(taskList.size() - 1);
         if (lastTask != null) {
-            Long taskId = taskEntity.getTask_id();
-            String taskMessage = taskEntity.getTaskMessage();
-            Long userId = taskEntity.getUserId();
-            Assert.assertNotNull("taskId should not be null", taskId);
-            Assert.assertNotNull("taskMessage should not be null", taskMessage);
-            Assert.assertNotNull("userId should not be null", userId);
-            Assert.assertEquals("taskMessage123", taskMessage);
-            Assert.assertEquals(1L, (long) userId);
+            Long taskId = lastTask.getTask_id();
+            String taskMessage = lastTask.getTaskMessage();
+            Long userId = lastTask.getUser_id();
+            Assertions.assertNotNull(taskId, "taskId should not be null");
+            Assertions.assertNotNull(taskMessage, "taskMessage should not be null");
+            Assertions.assertNotNull(userId, "userId should not be null");
+            Assertions.assertEquals("taskMessage123", taskMessage);
+            Assertions.assertEquals(1L, (long) userId);
         }
     }
 
@@ -45,15 +50,19 @@ public class TaskTests {
     public void test_002_getAllTask() {
         logger.info("test_002_getAllTask start");
 
-        List<TaskEntity> taskEntities = taskRepository.findAll();
-        if (!taskEntities.isEmpty()) {
-            for (TaskEntity	taskEntity : taskEntities) {
+        List<TaskEntity> taskList = new ArrayList<>();
+
+        Iterable<TaskEntity> taskEntities = taskRepository.findAll();
+        taskEntities.forEach(taskList::add);
+
+        if (!taskList.isEmpty()) {
+            for (TaskEntity	taskEntity : taskList) {
                 Long taskId = taskEntity.getTask_id();
                 String taskMessage = taskEntity.getTaskMessage();
-                Long userId = taskEntity.getUserId();
-                Assert.assertNotNull("taskId should not be null", taskId);
-                Assert.assertNotNull("taskMessage should not be null", taskMessage);
-                Assert.assertNotNull("userId should not be null", userId);
+                Long userId = taskEntity.getUser_id();
+                Assertions.assertNotNull(taskId, "taskId should not be null");
+                Assertions.assertNotNull(taskMessage, "taskMessage should not be null");
+                Assertions.assertNotNull(userId, "userId should not be null");
             }
         }
     }
@@ -65,12 +74,13 @@ public class TaskTests {
         Optional<TaskEntity> taskEntityOptional = taskRepository.findById(1L);
         if (taskEntityOptional.isPresent()) {
             TaskEntity taskEntity = taskEntityOptional.get();
+
             Long taskId = taskEntity.getTask_id();
             String taskMessage = taskEntity.getTaskMessage();
-            Long userId = taskEntity.getUserId();
-            Assert.assertNotNull("taskId should not be null", taskId);
-            Assert.assertNotNull("taskMessage should not be null", taskMessage);
-            Assert.assertNotNull("userId should not be null", userId);
+            Long userId = taskEntity.getUser_id();
+            Assertions.assertNotNull(taskId, "taskId should not be null");
+            Assertions.assertNotNull(taskMessage, "taskMessage should not be null");
+            Assertions.assertNotNull(userId, "userId should not be null");
         }
     }
 
@@ -82,17 +92,17 @@ public class TaskTests {
         if (taskEntityOptional.isPresent()) {
             TaskEntity taskEntity = taskEntityOptional.get();
             taskEntity.setTaskMessage("taskMessage567");
-            taskEntity.setUserId(1L);
+            taskEntity.setUser_id(1L);
             taskRepository.save(taskEntity);
 
             Long taskId = taskEntity.getTask_id();
             String taskMessage = taskEntity.getTaskMessage();
-            Long userId = taskEntity.getUserId();
-            Assert.assertNotNull("taskId should not be null", taskId);
-            Assert.assertNotNull("taskMessage should not be null", taskMessage);
-            Assert.assertNotNull("userId should not be null", userId);
-            Assert.assertEquals("taskMessage567", taskMessage);
-            Assert.assertEquals(1L, (long) userId);
+            Long userId = taskEntity.getUser_id();
+            Assertions.assertNotNull(taskId, "taskId should not be null");
+            Assertions.assertNotNull(taskMessage, "taskMessage should not be null");
+            Assertions.assertNotNull(userId, "userId should not be null");
+            Assertions.assertEquals("taskMessage567", taskMessage);
+            Assertions.assertEquals(1L, (long) userId);
         }
     }
 }

@@ -5,6 +5,7 @@ import com.donaldwu.main.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +18,7 @@ public class UserService {
         Long id = userEntity.getUser_id();
         if (id != null) {
             Optional<UserEntity> user = userRepository.findById(id);
-            if (!user.isPresent()) {
+            if (user.isEmpty()) {
                 userEntity.setUsername(username);
                 userRepository.save(userEntity);
             }
@@ -27,21 +28,29 @@ public class UserService {
         }
     }
 
-    public List<UserEntity> getAllUser() {
+    public Iterable<UserEntity> getAllUser() {
         return userRepository.findAll();
     }
 
     public UserEntity getLastUser() {
-        List<UserEntity> userEntities = userRepository.findAll();
-        return userEntities.get(userEntities.size() - 1);
+        List<UserEntity> userList = new ArrayList<>();
+
+        Iterable<UserEntity> userEntities = userRepository.findAll();
+        userEntities.forEach(userList::add);
+
+        return userList.get(userList.size() - 1);
     }
 
     public UserEntity getUserByUsername(String username) {
         UserEntity userEntityResult = null;
 
-        List<UserEntity> userEntities = userRepository.findAll();
-        if (!userEntities.isEmpty()) {
-            for (UserEntity userEntity : userEntities) {
+        List<UserEntity> userList = new ArrayList<>();
+
+        Iterable<UserEntity> userEntities = userRepository.findAll();
+        userEntities.forEach(userList::add);
+
+        if (!userList.isEmpty()) {
+            for (UserEntity userEntity : userList) {
                 String usernameFromDB = userEntity.getUsername();
                 if (usernameFromDB.equals(username)) {
                     userEntityResult = userEntity;

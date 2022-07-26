@@ -5,6 +5,7 @@ import com.donaldwu.main.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,20 +18,25 @@ public class TaskService {
         Long id = taskEntity.getTask_id();
         if (id != null) {
             Optional<TaskEntity> task = taskRepository.findById(id);
-            if (!task.isPresent()) {
+            if (task.isEmpty()) {
                 taskEntity.setTaskMessage(taskMessage);
-                taskEntity.setUserId(userId);
+                taskEntity.setUser_id(userId);
                 taskRepository.save(taskEntity);
             }
         } else {
             taskEntity.setTaskMessage(taskMessage);
-            taskEntity.setUserId(userId);
+            taskEntity.setUser_id(userId);
             taskRepository.save(taskEntity);
         }
     }
 
     public List<TaskEntity> getAllTask() {
-        return taskRepository.findAll();
+        List<TaskEntity> taskList = new ArrayList<>();
+
+        Iterable<TaskEntity> taskEntities = taskRepository.findAll();
+        taskEntities.forEach(taskList::add);
+
+        return taskList;
     }
 
     public TaskEntity getTaskById(Long id) {
@@ -48,7 +54,7 @@ public class TaskService {
         if (task.isPresent()) {
             TaskEntity existingTaskEntity = task.get();
             existingTaskEntity.setTaskMessage(taskMessage);
-            existingTaskEntity.setUserId(userId);
+            existingTaskEntity.setUser_id(userId);
             taskRepository.save(existingTaskEntity);
         }
     }
