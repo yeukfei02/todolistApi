@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class CreateUserResponseBody {
     private String message;
-    private Long userId;
+    private Long user_id;
 }

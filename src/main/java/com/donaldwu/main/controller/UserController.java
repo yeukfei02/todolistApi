@@ -12,9 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -38,7 +36,7 @@ public class UserController {
 
         CreateUserResponseBody createUserResponseBody = new CreateUserResponseBody();
         createUserResponseBody.setMessage("create user");
-        createUserResponseBody.setUserId(userId);
+        createUserResponseBody.setUser_id(userId);
         return createUserResponseBody;
     }
 
@@ -46,21 +44,10 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     private GetAllUserResponseBody getAllUser() {
-        List<Map<String, Object>> userList = new ArrayList<>();
+        List<UserEntity> userList = new ArrayList<>();
 
-        List<UserEntity> userEntities = userService.getAllUser();
-        if (!userEntities.isEmpty()) {
-            for (UserEntity userEntity : userEntities) {
-                Map<String, Object> testMap = new HashMap<>();
-
-                Long userId = userEntity.getUser_id();
-                String username = userEntity.getUsername();
-                testMap.put("userId", userId);
-                testMap.put("username", username);
-
-                userList.add(testMap);
-            }
-        }
+        Iterable<UserEntity> userEntities = userService.getAllUser();
+        userEntities.forEach(userList::add);
 
         GetAllUserResponseBody getAllUserResponseBody = new GetAllUserResponseBody();
         getAllUserResponseBody.setMessage("get all user");
@@ -77,7 +64,7 @@ public class UserController {
 
         GetUserIdResponseBody getUserIdResponseBody = new GetUserIdResponseBody();
         getUserIdResponseBody.setMessage("get user id");
-        getUserIdResponseBody.setUserId(userId);
+        getUserIdResponseBody.setUser_id(userId);
         return getUserIdResponseBody;
     }
 }

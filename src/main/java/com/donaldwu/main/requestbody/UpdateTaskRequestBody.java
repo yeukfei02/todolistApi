@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class UpdateTaskRequestBody {
     private String taskMessage;
-    private Long userId;
+    private Long user_id;
 }

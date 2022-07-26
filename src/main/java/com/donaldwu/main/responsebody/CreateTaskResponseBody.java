@@ -3,7 +3,6 @@ package com.donaldwu.main.responsebody;
 import lombok.Data;
 
 @Data
-public class GetUserIdResponseBody {
+public class CreateTaskResponseBody {
     private String message;
-    private Long user_id;
 }
