@@ -1,8 +1,8 @@
 package com.donaldwu.main.controller;
 
-import com.donaldwu.main.entity.TaskEntity;
-import com.donaldwu.main.requestbody.CreateTaskRequestBody;
-import com.donaldwu.main.requestbody.UpdateTaskRequestBody;
+import com.donaldwu.main.model.Task;
+import com.donaldwu.main.dto.CreateTaskDto;
+import com.donaldwu.main.dto.UpdateTaskDto;
 import com.donaldwu.main.responsebody.*;
 import com.donaldwu.main.service.TaskService;
 import lombok.extern.java.Log;
@@ -23,11 +23,11 @@ public class TaskController {
     @RequestMapping(value="/task/create-task", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    private CreateTaskResponseBody createTask(@RequestBody CreateTaskRequestBody createTaskRequestBody, TaskEntity taskEntity) {
-        String taskMessage = createTaskRequestBody.getTaskMessage();
-        Long userId = createTaskRequestBody.getUser_id();
+    private CreateTaskResponseBody createTask(@RequestBody CreateTaskDto createTaskDto, Task task) {
+        String taskMessage = createTaskDto.getTaskMessage();
+        Long userId = createTaskDto.getUser_id();
         if (taskMessage != null && !taskMessage.isEmpty() && userId != null) {
-            taskService.createTask(taskEntity, taskMessage, userId);
+            taskService.createTask(task, taskMessage, userId);
         }
 
         CreateTaskResponseBody createTaskResponseBody = new CreateTaskResponseBody();
@@ -39,15 +39,15 @@ public class TaskController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     private GetAllTaskResponseBody getAllTask(@RequestParam(value = "user_id", required = false) String userIdRequestParam) {
-        List<TaskEntity> taskList = taskService.getAllTask();
+        List<Task> taskList = taskService.getAllTask();
 
         if (userIdRequestParam != null) {
-            List<TaskEntity> formattedTaskList = new ArrayList<>();
-            for (TaskEntity taskEntity : taskList) {
-                Long userIdFromDB = taskEntity.getUser_id();
+            List<Task> formattedTaskList = new ArrayList<>();
+            for (Task task : taskList) {
+                Long userIdFromDB = task.getUser_id();
                 Long userIdLongRequestParam = Long.parseLong(userIdRequestParam, 10);
                 if (userIdFromDB.equals(userIdLongRequestParam)) {
-                    formattedTaskList.add(taskEntity);
+                    formattedTaskList.add(task);
                 }
             }
             taskList = formattedTaskList;
@@ -63,11 +63,11 @@ public class TaskController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     private GetTaskByIdResponseBody getTaskById(@PathVariable(value = "id") long id) {
-        TaskEntity taskEntity = taskService.getTaskById(id);
+        Task task = taskService.getTaskById(id);
 
         GetTaskByIdResponseBody getTaskByIdResponseBody = new GetTaskByIdResponseBody();
         getTaskByIdResponseBody.setMessage("get task by id");
-        getTaskByIdResponseBody.setTask(taskEntity);
+        getTaskByIdResponseBody.setTask(task);
 
         return getTaskByIdResponseBody;
     }
@@ -75,11 +75,11 @@ public class TaskController {
     @RequestMapping(value="/task/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    private UpdateTaskResponseBody updateTaskById(@PathVariable(value = "id") long id, @RequestBody UpdateTaskRequestBody updateTaskRequestBody) {
-        TaskEntity taskEntity = taskService.getTaskById(id);
-        if (taskEntity != null) {
-            String taskMessage = updateTaskRequestBody.getTaskMessage();
-            Long userId = updateTaskRequestBody.getUser_id();
+    private UpdateTaskResponseBody updateTaskById(@PathVariable(value = "id") long id, @RequestBody UpdateTaskDto updateTaskDto) {
+        Task task = taskService.getTaskById(id);
+        if (task != null) {
+            String taskMessage = updateTaskDto.getTaskMessage();
+            Long userId = updateTaskDto.getUser_id();
             taskService.updateTaskById(id, taskMessage, userId);
         }
 
@@ -92,8 +92,8 @@ public class TaskController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     private DeleteTaskResponseBody deleteTaskById(@PathVariable(value = "id") long id) {
-        TaskEntity taskEntity = taskService.getTaskById(id);
-        if (taskEntity != null) {
+        Task task = taskService.getTaskById(id);
+        if (task != null) {
             taskService.deleteTaskById(id);
         }
 

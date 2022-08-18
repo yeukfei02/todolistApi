@@ -1,9 +1,9 @@
-package com.donaldwu.main.requestbody;
+package com.donaldwu.main.dto;
 
 import lombok.Data;
 
 @Data
-public class CreateTaskRequestBody {
+public class CreateTaskDto {
     private String taskMessage;
     private Long user_id;
 }
