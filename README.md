@@ -8,11 +8,14 @@ api url: <https://todo-list-api-v1.herokuapp.com/>
 
 ## Requirement
 
-- install java (1.8+)
+- install java (v11+)
 
 ## Testing and run
 
 ```zsh
+// show gradle all tasks
+$ ./gradlew tasks --all
+
 // build jar
 $ ./gradlew build
 
