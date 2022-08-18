@@ -1,6 +1,6 @@
 package com.donaldwu.main.service;
 
-import com.donaldwu.main.entity.TaskEntity;
+import com.donaldwu.main.model.Task;
 import com.donaldwu.main.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,10 @@ public class TaskService {
     @Autowired
     private TaskRepository taskRepository;
 
-    public void createTask(TaskEntity taskEntity, String taskMessage, Long userId) {
+    public void createTask(Task taskEntity, String taskMessage, Long userId) {
         Long id = taskEntity.getTask_id();
         if (id != null) {
-            Optional<TaskEntity> task = taskRepository.findById(id);
+            Optional<Task> task = taskRepository.findById(id);
             if (task.isEmpty()) {
                 taskEntity.setTaskMessage(taskMessage);
                 taskEntity.setUser_id(userId);
@@ -30,19 +30,19 @@ public class TaskService {
         }
     }
 
-    public List<TaskEntity> getAllTask() {
-        List<TaskEntity> taskList = new ArrayList<>();
+    public List<Task> getAllTask() {
+        List<Task> taskList = new ArrayList<>();
 
-        Iterable<TaskEntity> taskEntities = taskRepository.findAll();
+        Iterable<Task> taskEntities = taskRepository.findAll();
         taskEntities.forEach(taskList::add);
 
         return taskList;
     }
 
-    public TaskEntity getTaskById(Long id) {
-        TaskEntity result = null;
+    public Task getTaskById(Long id) {
+        Task result = null;
 
-        Optional<TaskEntity> taskEntity = taskRepository.findById(id);
+        Optional<Task> taskEntity = taskRepository.findById(id);
         if (taskEntity.isPresent()) {
             result = taskEntity.get();
         }
@@ -50,17 +50,17 @@ public class TaskService {
     }
 
     public void updateTaskById(Long id, String taskMessage, Long userId) {
-        Optional<TaskEntity> task = taskRepository.findById(id);
+        Optional<Task> task = taskRepository.findById(id);
         if (task.isPresent()) {
-            TaskEntity existingTaskEntity = task.get();
-            existingTaskEntity.setTaskMessage(taskMessage);
-            existingTaskEntity.setUser_id(userId);
-            taskRepository.save(existingTaskEntity);
+            Task existingTask = task.get();
+            existingTask.setTaskMessage(taskMessage);
+            existingTask.setUser_id(userId);
+            taskRepository.save(existingTask);
         }
     }
 
     public void deleteTaskById(Long id) {
-        Optional<TaskEntity> task = taskRepository.findById(id);
+        Optional<Task> task = taskRepository.findById(id);
         if (task.isPresent()) {
             taskRepository.deleteById(id);
         }

@@ -1,6 +1,6 @@
 package com.donaldwu.main.responsebody;
 
-import com.donaldwu.main.entity.UserEntity;
+import com.donaldwu.main.model.User;
 import lombok.Data;
 
 import java.util.List;
@@ -8,5 +8,5 @@ import java.util.List;
 @Data
 public class GetAllUserResponseBody {
     private String message;
-    private List<UserEntity> users;
+    private List<User> users;
 }

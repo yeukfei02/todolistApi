@@ -1,7 +1,7 @@
 package com.donaldwu.main.controller;
 
-import com.donaldwu.main.entity.UserEntity;
-import com.donaldwu.main.requestbody.CreateUserRequestBody;
+import com.donaldwu.main.model.User;
+import com.donaldwu.main.dto.CreateUserDto;
 import com.donaldwu.main.responsebody.CreateUserResponseBody;
 import com.donaldwu.main.responsebody.GetAllUserResponseBody;
 import com.donaldwu.main.responsebody.GetUserIdResponseBody;
@@ -25,13 +25,13 @@ public class UserController {
     @RequestMapping(value="/user/create-user", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    private CreateUserResponseBody createUser(@RequestBody CreateUserRequestBody createUserRequestBody, UserEntity userEntity) {
-        String username = createUserRequestBody.getUsername();
+    private CreateUserResponseBody createUser(@RequestBody CreateUserDto createUserDto, User user) {
+        String username = createUserDto.getUsername();
         if (username != null && !username.isEmpty()) {
-            userService.createUser(userEntity, username);
+            userService.createUser(user, username);
         }
 
-        UserEntity lastUser = userService.getLastUser();
+        User lastUser = userService.getLastUser();
         Long userId = lastUser.getUser_id();
 
         CreateUserResponseBody createUserResponseBody = new CreateUserResponseBody();
@@ -44,9 +44,9 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     private GetAllUserResponseBody getAllUser() {
-        List<UserEntity> userList = new ArrayList<>();
+        List<User> userList = new ArrayList<>();
 
-        Iterable<UserEntity> userEntities = userService.getAllUser();
+        Iterable<User> userEntities = userService.getAllUser();
         userEntities.forEach(userList::add);
 
         GetAllUserResponseBody getAllUserResponseBody = new GetAllUserResponseBody();
@@ -59,7 +59,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     private GetUserIdResponseBody getUserId(@RequestParam(value = "username") String username) {
-        UserEntity user = userService.getUserByUsername(username);
+        User user = userService.getUserByUsername(username);
         Long userId = user.getUser_id();
 
         GetUserIdResponseBody getUserIdResponseBody = new GetUserIdResponseBody();

@@ -1,6 +1,6 @@
 package com.donaldwu.main.service;
 
-import com.donaldwu.main.entity.UserEntity;
+import com.donaldwu.main.model.User;
 import com.donaldwu.main.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,10 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public void createUser(UserEntity userEntity, String username) {
+    public void createUser(User userEntity, String username) {
         Long id = userEntity.getUser_id();
         if (id != null) {
-            Optional<UserEntity> user = userRepository.findById(id);
+            Optional<User> user = userRepository.findById(id);
             if (user.isEmpty()) {
                 userEntity.setUsername(username);
                 userRepository.save(userEntity);
@@ -28,35 +28,35 @@ public class UserService {
         }
     }
 
-    public Iterable<UserEntity> getAllUser() {
+    public Iterable<User> getAllUser() {
         return userRepository.findAll();
     }
 
-    public UserEntity getLastUser() {
-        List<UserEntity> userList = new ArrayList<>();
+    public User getLastUser() {
+        List<User> userList = new ArrayList<>();
 
-        Iterable<UserEntity> userEntities = userRepository.findAll();
+        Iterable<User> userEntities = userRepository.findAll();
         userEntities.forEach(userList::add);
 
         return userList.get(userList.size() - 1);
     }
 
-    public UserEntity getUserByUsername(String username) {
-        UserEntity userEntityResult = null;
+    public User getUserByUsername(String username) {
+        User userResult = null;
 
-        List<UserEntity> userList = new ArrayList<>();
+        List<User> userList = new ArrayList<>();
 
-        Iterable<UserEntity> userEntities = userRepository.findAll();
+        Iterable<User> userEntities = userRepository.findAll();
         userEntities.forEach(userList::add);
 
         if (!userList.isEmpty()) {
-            for (UserEntity userEntity : userList) {
-                String usernameFromDB = userEntity.getUsername();
+            for (User user : userList) {
+                String usernameFromDB = user.getUsername();
                 if (usernameFromDB.equals(username)) {
-                    userEntityResult = userEntity;
+                    userResult = user;
                 }
             }
         }
-        return userEntityResult;
+        return userResult;
     }
 }

@@ -1,4 +1,4 @@
-package com.donaldwu.main.entity;
+package com.donaldwu.main.model;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "users")
 @Data
-public class UserEntity {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long user_id;
