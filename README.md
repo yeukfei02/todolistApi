@@ -4,8 +4,6 @@ todolistApi
 
 documentation: <https://documenter.getpostman.com/view/3827865/Szmb7Kdz?version=latest>
 
-api url: <https://todo-list-api-v1.herokuapp.com/>
-
 ## Requirement
 
 - install java (v11+)
